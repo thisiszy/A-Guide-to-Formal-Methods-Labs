@@ -1,0 +1,215 @@
+MODULE main
+    DEFINE
+    VAR
+    c1 : {0, 1, 5, 9, 13};
+    c3 : {0, 1, 5, 9, 13};
+    c5 : {0, 1, 5, 9, 13};
+    c7 : {0, 1, 5, 9, 13};
+    c9 : {0, 1, 5, 9, 13};
+    c11 : {0, 1, 5, 9, 13};
+    c13 : {0, 1, 5, 9, 13};
+    c15 : {0, 1, 5, 9, 13};
+    c20 : {0, 1, 5, 9, 13};
+    c21 : {0, 1, 5, 9, 13};
+    c22 : {0, 1, 5, 9, 13};
+    c23 : {0, 1, 5, 9, 13};
+
+    pr1: process node_type1_1(c15, c1, 1, {5, 9, 13});
+    pr3: process node_type2(c1, c3, c21, 3, 5, 9, 17);
+    pr5: process node_type1_1(c3, c5, 5, {1, 9, 13});
+    pr7: process node_type2(c5, c7, c22, 7, 9, 1, 13);
+    pr9: process node_type1_1(c7, c9, 9, {1, 5, 13});
+    pr11: process node_type2(c9, c11, c23, 11, 13, 1, 5);
+    pr13: process node_type1_1(c11, c13, 13, {1, 5, 9});
+    pr15: process node_type2(c13, c15, c20, 15, 1, 5, 9);
+    pr17: process node17(c20, c21, c22, c23, 17);
+
+    ASSIGN
+    init(c1) := 0;
+    init(c3) := 0;
+    init(c5) := 0;
+    init(c7) := 0;
+    init(c9) := 0;
+    init(c11) := 0;
+    init(c13) := 0;
+    init(c15) := 0;
+    init(c20) := 0;
+    init(c21) := 0;
+    init(c22) := 0;
+    init(c23) := 0;
+    next(c1) := c1;
+    next(c3) := c3;
+    next(c5) := c5;
+    next(c7) := c7;
+    next(c9) := c9;
+    next(c11) := c11;
+    next(c13) := c13;
+    next(c15) := c15;
+    next(c20) := c20;
+    next(c21) := c21;
+    next(c22) := c22;
+    next(c23) := c23;
+    CTLSPEC
+        AG(!(
+            -- node 1 block
+            c1!=0&c15!=1&
+            -- node 3 block
+            ((c1=0&c3=0&c21=0)&
+            (c1=5&c3!=0)&
+            (((c1=9)|(c1=13))&c21!=0)&
+            (c21=5&c3!=0))&
+            -- node 5 block
+            c5!=0&c3!=5&
+            -- node 7 block
+            ((c5=0&c7=0&c22=0)&
+            (c5=9&c7!=0)&
+            (((c5=1)|(c5=13))&c22!=0)&
+            (c22=9&c7!=0))&
+            -- node 9 block
+            c9!=0&c7!=9&
+            -- node 11 block
+            ((c9=0&c11=0&c23=0)&
+            (c9=13&c11!=0)&
+            (((c9=1)|(c9=5))&c23!=0)&
+            (c23=13&c11!=0))&
+            -- node 13 block
+            c13!=0&c11!=13&
+            -- node 15 block
+            ((c13=0&c15=0&c20=0)&
+            (c13=1&c15!=0)&
+            (((c13=9)|(c13=5))&c20!=0)&
+            (c20=1&c15!=0))&
+            -- node 17 block
+            ((c21=9|c20=9)&c22!=0)&
+            ((c21=13|c22=13)&c23!=0)&
+            ((c22=1|c23=1)&c20!=0)&
+            ((c23=5|c20=5)&c21!=0)
+        ))
+
+-- 一进一出带收发 for node 1 5 9 13
+MODULE node_type1_1(from, to, id, mlist)
+    FAIRNESS running
+    VAR
+        st : {send, proc};
+    ASSIGN
+        init(st) := {send, proc};
+        next(st) := {send, proc};
+        next(from) :=
+        case
+            -- 接收一个和自己id相同的信息
+            (from = id) : 0;
+            -- proc状态则向to信道转发from信道的消息
+            (from != 0 & from != id & to = 0 & st = proc) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            -- send状态则从mlist中挑出一个node,并发送信息到to信道
+            (to = 0 & st = send) : mlist;
+            (from != 0 & from != id & to = 0 & st = proc) : from;
+            TRUE : to;
+        esac;
+        
+-- 一进一出 第三个口可进可出 node 3 7 11 15
+MODULE node_type2(from, to, inout, id, param1, param2, param3)
+    FAIRNESS running
+    VAR
+        -- proc1:from->to or from->inout
+        -- proc2:inout->to
+        st : {proc1, proc2};
+    ASSIGN
+        init(st) := {proc1, proc2};
+        next(st) := {proc1, proc2};
+        next(from) :=
+        case
+            -- from->to
+            (from != 0 & to = 0 & st = proc1 & from = param1) : 0;
+            -- from->inout
+            (from != 0 & inout = 0 & st = proc1 & ((from = param2)|(from=param3))) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            -- from->to
+            (from != 0 & to = 0 & st = proc1 & from = param1) : from;
+            -- inout->to
+            (inout != 0 & to = 0 & st = proc2 & inout = param1) : inout;
+            TRUE : to;
+        esac;
+        next(inout) :=
+        case
+            -- inout->to
+            (inout != 0 & to = 0 & st = proc2 & inout = param1) : 0;
+            -- from->inout
+            (from != 0 & inout = 0 & st = proc1 & ((from = param2)|(from=param3))) : from;
+            TRUE : inout;
+        esac;
+
+-- 中心节点
+MODULE node17(c20, c21, c22, c23, id)
+    FAIRNESS running
+    VAR
+        -- proc1:c20->c21
+        -- proc2:c20->c22
+        -- proc3:c21->c22
+        -- proc4:c21->c23
+        -- proc5:c22->c20
+        -- proc6:c22->c23
+        -- proc7:c23->20
+        -- proc8:c23->21
+        st : {proc1, proc2, proc3, proc4, proc5, proc6, 
+                proc7, proc8};
+    ASSIGN
+        init(st) := {proc1, proc2, proc3, proc4, proc5, proc6, 
+                proc7, proc8};
+        next(st) := {proc1, proc2, proc3, proc4, proc5, proc6, 
+                proc7, proc8};
+        
+        next(c20) :=
+        case
+            -- c20->c21
+            (c20 != 0 & c21 = 0 & c20 = 5 & st = proc1) : 0;
+            -- c20->c22
+            (c20 != 0 & c22 = 0 & c20 = 9 & st = proc2) : 0;
+            -- c22->c20
+            (c22 != 0 & c20 = 0 & c22 = 1 & st = proc5) : c22;
+            -- c23->20
+            (c23 != 0 & c20 = 0 & c23 = 1 & st = proc7) : c23;
+            TRUE : c20;
+        esac;
+        next(c21) :=
+        case
+            -- c20->c21
+            (c20 != 0 & c21 = 0 & c20 = 5 & st = proc1) : c20;
+            -- c21->c22
+            (c21 != 0 & c22 = 0 & c21 = 9 & st = proc3) : 0;
+            -- c21->c23
+            (c21 != 0 & c23 = 0 & c21 = 13 & st = proc4) : 0;
+            -- c23->21
+            (c23 != 0 & c21 = 0 & c23 = 5 & st = proc8) : c23;
+            TRUE : c21;
+        esac;
+        next(c22) :=
+        case
+            -- c20->c22
+            (c20 != 0 & c22 = 0 & c20 = 9 & st = proc2) : c20;
+            -- c21->c22
+            (c21 != 0 & c22 = 0 & c21 = 9 & st = proc3) : c21;
+            -- c22->c20
+            (c22 != 0 & c20 = 0 & c22 = 1 & st = proc5) : 0;
+            -- c22->c23
+            (c22 != 0 & c23 = 0 & c22 = 13 & st = proc6) : 0;
+            TRUE : c22;
+        esac;
+        next(c23) :=
+        case
+            -- c21->c23
+            (c21 != 0 & c23 = 0 & c21 = 13 & st = proc4) : c21;
+            -- c22->c23
+            (c22 != 0 & c23 = 0 & c22 = 13 & st = proc6) : c22;
+            -- c23->20
+            (c23 != 0 & c20 = 0 & c23 = 1 & st = proc7) : 0;
+            -- c23->21
+            (c23 != 0 & c21 = 0 & c23 = 5 & st = proc8) : 0;
+            TRUE : c23;
+        esac;

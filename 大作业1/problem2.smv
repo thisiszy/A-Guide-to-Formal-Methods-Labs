@@ -1,0 +1,124 @@
+MODULE main
+    DEFINE
+    -- 定义每个channel可以传送的信息范围
+    VAR
+    c2 : {0, 2, 4, 6};
+    c3 : {0, 2, 4, 6};
+    c6 : {0, 2, 4, 6};
+    c15 : {0, 2, 4, 6};
+    c17 : {0, 2, 4, 6};
+    c18 : {0, 2, 4, 6};
+    c20 : {0, 2, 4, 6};
+    c21 : {0, 2, 4, 6};
+    c22 : {0, 2, 4, 6};
+
+    pr2: process node_type1_1(c17, c2, 2, {4, 6});
+    pr3: process node_type1(c2, c3, 3);
+    pr4: process node_type1_1(c3, c18, 4, {2, 6});
+    pr6: process node_type1_1(c18, c6, 6, {2, 4});
+    pr7: process node_type1(c6, c22, 7);
+    pr15: process node_type1(c20, c15, 15);
+    pr16: process node_type1(c15, c17, 16);
+    pr17: process node_type5(c20, c21, c22, 17);
+    -- 初始化每个channel为0(empty)
+    ASSIGN
+    init(c2) := 0;
+    init(c3) := 0;
+    init(c6) := 0;
+    init(c15) := 0;
+    init(c17) := 0;
+    init(c18) := 0;
+    init(c20) := 0;
+    init(c21) := 0;
+    init(c22) := 0;
+    next(c2) := c2;
+    next(c3) := c3;
+    next(c6) := c6;
+    next(c15) := c15;
+    next(c17) := c17;
+    next(c18) := c18;
+    next(c20) := c20;
+    next(c21) := c21;
+    next(c22) := c22;
+    CTLSPEC
+        AG(!(
+            -- node 2 blocked
+            c2!=0&c17!=2&
+            -- node 3 blocked
+            c3!=0&c3!=4&
+            -- node 4 blocked
+            c18!=0&c3!=4&
+            -- node 6 blocked
+            c6!=0&c18!=6&
+            -- node 7 blocked
+            (c22!=0|(c22=0&c6=0))&
+            -- node 15 blocked
+            (c15!=0|(c15=0&c20=0))&
+            -- node 16 blocked
+            (c17!=0|(c17=0&c15=0))&
+            -- node 17 blocked
+            ((c21!=0&(c22=4|c22=6))|(c20!=0&c22=2)|(c22=0&c20=0&c21=0))
+        ))
+
+-- 一进一出
+MODULE node_type1(from, to, id)
+    FAIRNESS running
+    ASSIGN
+        next(from) :=
+        case
+            -- 只进行转发
+            (from != 0 & from != id & to = 0) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            (from != 0 & from != id & to = 0) : from;
+            TRUE : to;
+        esac;
+
+-- 一进一出带收发 for node 2 4 6
+MODULE node_type1_1(from, to, id, mlist)
+    FAIRNESS running
+    VAR
+        st : {send, proc, recv};
+    ASSIGN
+        init(st) := {send, proc, recv};
+        next(st) := {send, proc, recv};
+        next(from) :=
+        case
+            -- recv状态则接收一个和自己id相同的信息
+            (from = id & st = recv) : 0;
+            -- proc状态则向to信道转发from信道的消息
+            (from != 0 & from != id & to = 0 & st = proc) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            -- send状态则从mlist中挑出一个node,并发送信息到to信道
+            (to = 0 & st = send) : mlist;
+            (from != 0 & from != id & to = 0 & st = proc) : from;
+            TRUE : to;
+        esac;
+
+-- node 17
+MODULE node_type5(inout1, inout2, inout3, id)
+    FAIRNESS running
+    ASSIGN
+        -- 当c22为2时,向c20转发信息
+        next(inout1) :=
+        case
+            (inout3 = 2 & inout3 != id & inout1 = 0) : inout3;
+            TRUE : inout1;
+        esac;
+        -- 当c22为4或6时,向c21转发信息
+        next(inout2) :=
+        case
+            ((inout3 = 4 | inout3 = 6) & inout3 != id & inout2 = 0) : inout3;
+            TRUE : inout2;
+        esac;
+        -- 信息转发后清空in信道
+        next(inout3) :=
+        case
+            (inout3 != 0 & inout3 != id ) : 0;
+            TRUE : inout3;
+        esac;

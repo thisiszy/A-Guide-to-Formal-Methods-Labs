@@ -1,0 +1,320 @@
+MODULE main
+    DEFINE
+    VAR
+    c1 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c2 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c3 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c4 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c5 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c6 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c7 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c8 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c9 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c10 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c11 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c12 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c13 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c14 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c15 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c16 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c17 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c18 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c19 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c20 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c21 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c22 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    c23 : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+
+    -- pr1: process node_type1(c16, c1, 1, {5, 9, 13}, TRUE);
+    -- pr2: process node_type3(c1, c17, c2, 2, {1, 5, 9, 13}, FALSE);
+    -- pr3: process node_type4(c2, c3, c21, 3, {1, 5, 9, 13}, FALSE);
+    -- pr4: process node_type2(c3, c4, c18, 4, {1, 5, 9, 13}, FALSE);
+    -- pr5: process node_type1(c4, c5, 5, {1, 9, 13}, TRUE);
+    -- pr6: process node_type3(c5, c18, c6, 6, {1, 5, 9, 13}, FALSE);
+    -- pr7: process node_type4(c6, c7, c22, 7, {1, 5, 9, 13}, FALSE);
+    -- pr8: process node_type2(c7, c19, c8, 8, {1, 5, 9, 13}, FALSE);
+    -- pr9: process node_type1(c8, c9, 9, {1, 5, 13}, TRUE);
+    -- pr10: process node_type3(c9, c19, c10, 10, {1, 5, 9, 13}, FALSE);
+    -- pr11: process node_type4(c10, c11, c23, 11, {1, 5, 9, 13}, FALSE);
+    -- pr12: process node_type1(c11, c12, 12, {1, 5, 9, 13}, FALSE);
+    -- pr13: process node_type1(c12, c13, 13, {1, 5, 9}, TRUE);
+    -- pr14: process node_type1(c13, c14, 14, {1, 5, 9, 13}, FALSE);
+    -- pr15: process node_type4(c14, c15, c20, 15, {1, 5, 9, 13}, FALSE);
+    -- pr16: process node_type2(c15, c16, c17, 16, {1, 5, 9, 13}, FALSE);
+    -- pr17: process node_type5(c20, c21, c22, c23, 17, {1, 5, 9, 13}, FALSE);
+
+    pr1: process node_type1(c16, c1, 1, {2, 4, 6}, FALSE);
+    pr2: process node_type3(c1, c17, c2, 2, {4, 6}, TRUE);
+    pr3: process node_type4(c2, c3, c21, 3, {2, 4, 6}, FALSE);
+    pr4: process node_type2(c3, c4, c18, 4, {2, 6}, TRUE);
+    pr5: process node_type1(c4, c5, 5, {1, 9, 13}, FALSE);
+    pr6: process node_type3(c5, c18, c6, 6, {2, 4}, TRUE);
+    pr7: process node_type4(c6, c7, c22, 7, {2, 4, 6}, FALSE);
+    pr8: process node_type2(c7, c19, c8, 8, {2, 4, 6}, FALSE);
+    pr9: process node_type1(c8, c9, 9, {2, 4, 6}, FALSE);
+    pr10: process node_type3(c9, c19, c10, 10, {2, 4, 6}, FALSE);
+    pr11: process node_type4(c10, c11, c23, 11, {2, 4, 6}, FALSE);
+    pr12: process node_type1(c11, c12, 12, {2, 4, 6}, FALSE);
+    pr13: process node_type1(c12, c13, 13, {2, 4, 6}, FALSE);
+    pr14: process node_type1(c13, c14, 14, {2, 4, 6}, FALSE);
+    pr15: process node_type4(c14, c15, c20, 15, {2, 4, 6}, FALSE);
+    pr16: process node_type2(c15, c16, c17, 16, {2, 4, 6}, FALSE);
+    pr17: process node_type5(c20, c21, c22, c23, 17, {2, 4, 6}, FALSE);
+    ASSIGN
+    init(c1) := 0;
+    init(c2) := 0;
+    init(c3) := 0;
+    init(c4) := 0;
+    init(c5) := 0;
+    init(c6) := 0;
+    init(c7) := 0;
+    init(c8) := 0;
+    init(c9) := 0;
+    init(c10) := 0;
+    init(c11) := 0;
+    init(c12) := 0;
+    init(c13) := 0;
+    init(c14) := 0;
+    init(c15) := 0;
+    init(c16) := 0;
+    init(c17) := 0;
+    init(c18) := 0;
+    init(c19) := 0;
+    init(c20) := 0;
+    init(c21) := 0;
+    init(c22) := 0;
+    init(c23) := 0;
+    next(c1) := c1;
+    next(c2) := c2;
+    next(c3) := c3;
+    next(c4) := c4;
+    next(c5) := c5;
+    next(c6) := c6;
+    next(c7) := c7;
+    next(c8) := c8;
+    next(c9) := c9;
+    next(c10) := c10;
+    next(c11) := c11;
+    next(c12) := c12;
+    next(c13) := c13;
+    next(c14) := c14;
+    next(c15) := c15;
+    next(c16) := c16;
+    next(c17) := c17;
+    next(c18) := c18;
+    next(c19) := c19;
+    next(c20) := c20;
+    next(c21) := c21;
+    next(c22) := c22;
+    next(c23) := c23;
+    CTLSPEC
+        AG(!(
+            c1!=0&c1!=2&
+            c2!=0&c2!=3&
+            c3!=0&c3!=4&
+            c4!=0&c4!=5&
+            c5!=0&c5!=6&
+            c6!=0&c6!=7&
+            c7!=0&c7!=8&
+            c8!=0&c8!=9&
+            c9!=0&c9!=10&
+            c10!=0&c10!=11&
+            c11!=0&c11!=12&
+            c12!=0&c12!=13&
+            c13!=0&c13!=14&
+            c14!=0&c14!=15&
+            c15!=0&c15!=16&
+            c16!=0&c16!=1&
+            c17!=0&c17!=2&
+            c18!=0&c18!=6&
+            c19!=0&c19!=10&
+            c20!=0&c20!=17&c20!=15&
+            c21!=0&c21!=17&c21!=3&
+            c22!=0&c22!=17&c22!=7&
+            c23!=0&c23!=17&c23!=11
+        ))
+
+-- 一进一出
+MODULE node_type1(from, to, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        st : {idle, send, proc};
+    ASSIGN
+        init(st) := idle;
+        next(st) := {send, proc};
+        next(from) :=
+        case
+            (from = id) : 0;
+            (from != 0 & from != id & to = 0 & st = proc) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            (to = 0 & allow = TRUE & st = send) : mlist;
+            (from != 0 & from != id & to = 0 & st = proc) : from;
+            TRUE : to;
+        esac;
+-- 一进两出
+MODULE node_type2(from, to1, to2, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        st : {idle, send1, send2, proc1, proc2};
+    ASSIGN
+        init(st) := idle;
+        next(st) := {send1, send2, proc1, proc2};
+        next(from) :=
+        case
+            (from = id) : 0;
+            (from != 0 & from != id & ((to1 = 0 & st = proc1) | (to2 = 0 & st = proc2))) : 0;
+            TRUE : from;
+        esac;
+        next(to1) :=
+        case
+            (to1 = 0 & allow = TRUE & st = send1) : mlist;
+            (from != 0 & from != id & to1 = 0 & st = proc1) : from;
+            TRUE : to1;
+        esac;
+        next(to2) :=
+        case
+            (to2 = 0 & allow = TRUE & st = send2) : mlist;
+            (from != 0 & from != id & to2 = 0 & st = proc2) : from;
+            TRUE : to2;
+        esac;
+-- 两进一出
+MODULE node_type3(from1, from2, to, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        st : {idle, send, proc1, proc2};
+    ASSIGN
+        init(st) := idle;
+        next(st) := {send, proc1, proc2};
+        next(from1) :=
+        case
+            (from1 = id) : 0;
+            (from1 != 0 & from1 != id & to = 0 & st = proc1) : 0;
+            TRUE : from1;
+        esac;
+        next(from2) :=
+        case
+            (from2 = id) : 0;
+            (from2 != 0 & from2 != id & to = 0 & st = proc2) : 0;
+            TRUE : from2;
+        esac;
+        next(to) :=
+        case
+            (to = 0 & allow = TRUE & st = send) : mlist;
+            (from1 != 0 & from1 != id & to = 0 & st = proc1) : from1;
+            (from2 != 0 & from2 != id & to = 0 & st = proc2) : from2;
+            TRUE : to;
+        esac;
+-- 一进一出 第三个口可进可出
+MODULE node_type4(from, to, inout, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        -- proc1:from->to
+        -- proc2:from->inout
+        -- proc3:inout->to
+        -- send1:to->
+        -- send2:inout->
+        st : {idle, send1, send2, proc1, proc2, proc3};
+    ASSIGN
+        init(st) := idle;
+        next(st) := {send1, send2, proc1, proc2, proc3};
+        next(from) :=
+        case
+            (from = id) : 0;
+            (from != 0 & from != id & ((to = 0 & st = proc1) | (inout = 0 & st = proc2))) : 0;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            (to = 0 & allow = TRUE & st = send1) : mlist;
+            (from != 0 & from != id & to = 0 & st = proc1) : from;
+            (inout != 0 & inout != id & to = 0 & st = proc3) : inout;
+            TRUE : to;
+        esac;
+        next(inout) :=
+        case
+            (inout = 0 & allow = TRUE & st = send2) : mlist;
+            (from != 0 & from != id & inout = 0 & st = proc2) : from;
+            (inout != 0 & inout != id & to = 0 & st = proc3) : 0;
+            (inout = id) : 0;
+            TRUE : inout;
+        esac;
+-- 中心节点
+MODULE node_type5(inout1, inout2, inout3, inout4, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        -- send1:inout1
+        -- send2:inout2
+        -- send3:inout3
+        -- send4:inout4
+        -- proc1:inout1->inout2
+        -- proc2:inout1->inout3
+        -- proc3:inout1->inout4
+        -- proc4:inout2->inout1
+        -- proc5:inout2->inout3
+        -- proc6:inout2->inout4
+        -- proc7:inout3->inout1
+        -- proc8:inout3->inout2
+        -- proc9:inout3->inout4
+        -- proc10:inout4->inout1
+        -- proc11:inout4->inout2
+        -- proc12:inout4->inout3
+        st : {idle, send1, send2, send3, send4, 
+                proc1, proc2, proc3, proc4, proc5, proc6, 
+                proc7, proc8, proc9, proc10, proc11, proc12};
+    ASSIGN
+        init(st) := idle;
+        next(st) := {send1, send2, send3, send4, 
+                proc1, proc2, proc3, proc4, proc5, proc6, 
+                proc7, proc8, proc9, proc10, proc11, proc12};
+        
+        next(inout1) :=
+        case
+            (inout1 = 0 & allow = TRUE & st = send1) : mlist;
+            (inout2 != 0 & inout2 != id & inout1 = 0 & st = proc4) : inout2;
+            (inout3 != 0 & inout3 != id & inout1 = 0 & st = proc7) : inout3;
+            (inout4 != 0 & inout4 != id & inout1 = 0 & st = proc10) : inout4;
+            (inout1 != 0 & inout1 != id & 
+                ((inout2 = 0 & st = proc1) | (inout3 = 0 & st = proc2) |
+                (inout4 = 0 & st = proc3))) : 0;
+            (inout1 = id) : 0;
+            TRUE : inout1;
+        esac;
+        next(inout2) :=
+        case
+            (inout2 = 0 & allow = TRUE & st = send2) : mlist;
+            (inout1 != 0 & inout1 != id & inout2 = 0 & st = proc1) : inout1;
+            (inout3 != 0 & inout3 != id & inout2 = 0 & st = proc8) : inout3;
+            (inout4 != 0 & inout4 != id & inout2 = 0 & st = proc11) : inout4;
+            (inout2 != 0 & inout2 != id & 
+                ((inout1 = 0 & st = proc4) | (inout3 = 0 & st = proc5) |
+                (inout4 = 0 & st = proc6))) : 0;
+            (inout2 = id) : 0;
+            TRUE : inout2;
+        esac;
+        next(inout3) :=
+        case
+            (inout3 = 0 & allow = TRUE & st = send3) : mlist;
+            (inout1 != 0 & inout1 != id & inout3 = 0 & st = proc2) : inout1;
+            (inout2 != 0 & inout2 != id & inout3 = 0 & st = proc5) : inout2;
+            (inout4 != 0 & inout4 != id & inout3 = 0 & st = proc12) : inout4;
+            (inout3 != 0 & inout3 != id & 
+                ((inout1 = 0 & st = proc7) | (inout2 = 0 & st = proc8) |
+                (inout4 = 0 & st = proc9))) : 0;
+            (inout3 = id) : 0;
+            TRUE : inout3;
+        esac;
+        next(inout4) :=
+        case
+            (inout4 = 0 & allow = TRUE & st = send4) : mlist;
+            (inout1 != 0 & inout1 != id & inout4 = 0 & st = proc3) : inout1;
+            (inout2 != 0 & inout2 != id & inout4 = 0 & st = proc6) : inout2;
+            (inout3 != 0 & inout3 != id & inout4 = 0 & st = proc9) : inout3;
+            (inout4 != 0 & inout4 != id & 
+                ((inout1 = 0 & st = proc10) | (inout2 = 0 & st = proc11) |
+                (inout3 = 0 & st = proc12))) : 0;
+            (inout4 = id) : 0;
+            TRUE : inout4;
+        esac;

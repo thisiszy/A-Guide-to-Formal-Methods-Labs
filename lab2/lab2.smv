@@ -1,0 +1,42 @@
+MODULE main
+    VAR
+    -- 定义两个process,由process的性质保证每次只有一个process active
+    -- 并且active的顺序随机
+    pr1: process prc(pr2.st);
+    pr2: process prc(pr1.st);
+    
+    -- Safety
+    CTLSPEC
+        AG(!((pr1.st = c) & (pr2.st = c)))
+    -- Liveness
+    CTLSPEC
+        AG((pr2.st = t) -> AF(pr2.st = c))
+    CTLSPEC
+        AG((pr1.st = t) -> AF(pr1.st = c))
+    -- Non-blocking
+    CTLSPEC
+        AG((pr1.st = t) -> EF(pr1.st = c))
+    CTLSPEC
+        AG((pr2.st = t) -> EF(pr2.st = c))
+    -- No Strict Sequencing
+    -- CTLSPEC
+    --     EF((pr1.st = c) -> E( pr1.st = c U [pr1.st != c E [(pr2.st != c U pr1.st = c ])]))
+
+MODULE prc(other-st)
+    FAIRNESS running
+    VAR
+        st : {n, t, c};
+    ASSIGN
+        -- 初始状态为n
+        init(st) := n;
+        next(st) :=
+            case
+                -- 当前状态为n的时候,下一个状态为t
+                (st = n) : t;
+                -- 当前状态为t且另一个process不在critical area时,下一个状态为c
+                (st = t) & (other-st != c) : c;
+                -- 当前状态为c时,下一个状态为n
+                (st = c) : n;
+                -- 其它情况下保持不变
+                TRUE : st;
+            esac;

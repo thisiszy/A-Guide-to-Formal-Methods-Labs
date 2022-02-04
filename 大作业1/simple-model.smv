@@ -1,0 +1,51 @@
+MODULE main
+    VAR
+    c1: {0, 1, 2, 3, 4};
+    c2: {0, 1, 2, 3, 4};
+    c3: {0, 1, 2, 3, 4};
+    c4: {0, 1, 2, 3, 4};
+    -- 不允许给4发送消息
+    -- pr1只允许给2,3发消息,以此类推
+    pr1: process node(c4, c1, 0, 1, {2, 3}, TRUE);
+    pr2: process node(c1, c2, 0, 2, {1, 3}, TRUE);
+    pr3: process node(c2, c3, 0, 3, {2, 1}, TRUE);
+    pr4: process node(c3, c4, 0, 4, {2, 3, 1}, FALSE);
+    ASSIGN
+    -- 初始化所有信道为空
+    init(c1) := 0;
+    init(c2) := 0;
+    init(c3) := 0;
+    init(c4) := 0;
+    next(c1) := c1;
+    next(c2) := c2;
+    next(c3) := c3;
+    next(c4) := c4;
+    CTLSPEC
+        -- 在所有情况下都不可能出现所有信道均不为空,
+        -- 并且所有节点都无法receive信息
+        AG(!(c1!=0&c1!=2&c2!=0&c2!=3&c3!=0&c3!=4&c4!=0&c4!=1))
+
+MODULE node(from, to, e, id, mlist, allow)
+    FAIRNESS running
+    VAR
+        st : {send, proc};
+    ASSIGN
+        -- 一个节点状态可以是send或者process
+        init(st) := {send, proc};
+        next(st) := {send, proc};
+        next(from) :=
+        case
+            -- 如果有可以接收的信息则进行接收
+            (from = id) : e;
+            -- 如果当前状态为process状态,并且有信息可以转发,则进行转发,讲from设为empty
+            (from != e & from != id & to = e & st = proc) : e;
+            TRUE : from;
+        esac;
+        next(to) :=
+        case
+            -- 如果当前状态为send,则随机向一个node发送一条信息
+            (to = e & allow = TRUE & st = send) : mlist;
+            -- 如果当前状态为process状态,并且有信息可以转发,则让to=from
+            (from != e & from != id & to = e & st = proc) : from;
+            TRUE : to;
+        esac;
